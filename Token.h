@@ -6,11 +6,18 @@
 #define CPPCOMPILER_TOKEN_H
 #include <string>
 
+enum class TokenType {
+  ReservedWrold,
+  Operator,
+  ID,
+  Const
+};
+
 struct Token {
-  std::string type;
+  TokenType type;
   std::string data;
 
-  Token(const char *type, const char *data) : type(type), data(data) {}
+  Token(TokenType type, const char *data) : type(type), data(data) {}
 };
 
 #endif //CPPCOMPILER_TOKEN_H
