@@ -62,6 +62,30 @@ Token LexicalAnalyzer::Get() {
     if (IsOperator(input_.peek())) {
       token.value.push_back(input_.get());
     }
+    if (token.value == "//") {
+      while (input_.peek() != '\n') {
+        input_.ignore();
+      }
+      input_.ignore();
+      while (input_.peek() == ' ' || input_.peek() == '\n') {
+        input_.ignore();
+      }
+      return Get();
+    } else if (token.value == "/*") {
+      check:
+      while (input_.peek() != '*') {
+        input_.ignore();
+      }
+      input_.ignore();
+      if (input_.peek() != '/') {
+        goto check;
+      }
+      input_.ignore();
+      while (input_.peek() == ' ' || input_.peek() == '\n') {
+        input_.ignore();
+      }
+      return Get();
+    }
     token.name = Token::Type::OPERATOR;
   } else {
     while (input_.peek() != ' ' && input_.peek() != '\n') {
