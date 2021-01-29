@@ -58,7 +58,7 @@ Token LexicalAnalyzer::Get() {
       }
     } while (input_.peek() != '\'');
     input_.ignore();
-    token.name = Token::Type::STRING_LITERAL;
+    token.name = Token::Type::STRING_LITERAL; // TODO: check literal size
   } else if (IsPunctuator(input_.peek())) {
     token.value.push_back(input_.get());
     token.name = Token::Type::PUNCTUATOR;
