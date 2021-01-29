@@ -22,7 +22,12 @@ bool LexicalAnalyzer::Empty() {
 
 Token LexicalAnalyzer::Get() {
   Token token;
-  if (isalpha(input_.peek()) || input_.peek() == '_') {
+  if (input_.peek() == '#') {
+    do {
+      token.value.push_back(input_.get());
+    } while (input_.peek() != '\n');
+    token.name = Token::Type::OTHER;
+  } else if (isalpha(input_.peek()) || input_.peek() == '_') {
     do {
       token.value.push_back(input_.get());
     } while (isalpha(input_.peek()) || input_.peek() == '_' || isdigit(input_.peek()));
