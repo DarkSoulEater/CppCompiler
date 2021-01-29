@@ -5,17 +5,23 @@
 #ifndef CPPCOMPILER_LEXICALANALYZER_H
 #define CPPCOMPILER_LEXICALANALYZER_H
 
-#include <fstream>
 #include "Token.h"
 
+#include <fstream>
+
 class LexicalAnalyzer {
-public:
-    LexicalAnalyzer(const char* path);
+ public:
+  explicit LexicalAnalyzer(const char *filename);
 
-    Token NextToken();
+  bool Empty();
+  Token Get();
 
-private:
-  // std::ifstream input_text;
+ private:
+  static bool IsKeyword(const Token &);
+  static bool IsPunctuator(const Token &);
+  static bool IsOperator(const Token &);
+
+  std::ifstream input_;
 };
 
 #endif //CPPCOMPILER_LEXICALANALYZER_H

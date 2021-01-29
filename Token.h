@@ -4,20 +4,13 @@
 
 #ifndef CPPCOMPILER_TOKEN_H
 #define CPPCOMPILER_TOKEN_H
+
 #include <string>
 
-enum class TokenType {
-  ReservedWrold,
-  Operator,
-  ID,
-  Const
-};
-
 struct Token {
-  TokenType type;
-  std::string data;
-
-  Token(TokenType type, const char *data) : type(type), data(data) {}
+  enum class Type { KEYWORD, IDENTIFIER, CONSTANT, STRING_LITERAL, PUNCTUATOR, OPERATOR, OTHER };
+  Type name;
+  std::string value;
 };
 
 #endif //CPPCOMPILER_TOKEN_H
