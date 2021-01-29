@@ -13,9 +13,9 @@ Token LexicalAnalyzer::NextToken() {
   const char *path = "C:\\Users\\eleno\\CLionProjects\\CppCompiler\\input.txt";
   static std::ifstream input_text(path);
   if (input_text.is_open()) {
-    while (!input_text.eof()) {
-      char c = input_text.get();
-      std::cout << int(c) << " ";
+    char c;
+    while (input_text.get(c)){
+      std::cout << c << " ";
       if (isalpha(c)) {
         std::cout << "is alpha\n";
       } else {

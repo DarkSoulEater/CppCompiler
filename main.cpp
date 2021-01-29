@@ -9,17 +9,13 @@ int g(const char* s) {
 }
 
 #include "LexicalAnalyzer.h"
+//#define a i
+//#define b a
 
 int main() {
+  //a+b;
   LexicalAnalyzer lexical_analyzer("C:\\Users\\eleno\\CLionProjects\\CppCompiler\\input.txt");
   //LexicalAnalyzer lexical_analyzer("\\nput.txt");
-  lexical_analyzer.NextToken();
-  lexical_analyzer.NextToken();
-  lexical_analyzer.NextToken();
-  lexical_analyzer.NextToken();
-  lexical_analyzer.NextToken();
-  lexical_analyzer.NextToken();
-  lexical_analyzer.NextToken();
   lexical_analyzer.NextToken();
   return 0;
   std::string s = "s";
