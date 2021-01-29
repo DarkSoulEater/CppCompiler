@@ -41,6 +41,7 @@ Token LexicalAnalyzer::Get() {
         return token;
       }
     } while (input_.peek() != '"');
+    input_.ignore();
     token.name = Token::Type::STRING_LITERAL;
   } else if (input_.peek() == '\'') {
     input_.ignore();
@@ -51,8 +52,23 @@ Token LexicalAnalyzer::Get() {
         return token;
       }
     } while (input_.peek() != '\'');
+    input_.ignore();
     token.name = Token::Type::STRING_LITERAL;
-  } else if (IsPunctuator({, std::string(input_.peek())}))
+  } else if (IsPunctuator(input_.peek())) {
+    token.value.push_back(input_.get());
+    token.name = Token::Type::PUNCTUATOR;
+  } else if (IsOperator(input_.peek())) {
+    token.value.push_back(input_.get());
+    if (IsOperator(input_.peek())) {
+      token.value.push_back(input_.get());
+    }
+    token.name = Token::Type::OPERATOR;
+  } else {
+    while (input_.peek() != ' ' && input_.peek() != '\n') {
+      token.value.push_back(input_.get());
+    }
+    token.name = Token::Type::OTHER;
+  }
   while (input_.peek() == ' ' || input_.peek() == '\n') {
     input_.ignore();
   }
@@ -74,9 +90,16 @@ bool LexicalAnalyzer::IsKeyword(const Token &token) {
   return keywords.find(token.value) != keywords.end();
 }
 
-bool LexicalAnalyzer::IsPunctuator(const Token &token) {
+bool LexicalAnalyzer::IsPunctuator(char c) {
   static const std::unordered_set<char> punctuators{
-      '{', }, "(", ")", ",", ";", "[", "]", ":"
+      '{', '}', '(', ')', ',', ';', '[', ']'
   };
-  return punctuators.find(token.value) != punctuators.end();
+  return punctuators.find(c) != punctuators.end();
+}
+
+bool LexicalAnalyzer::IsOperator(char c) {
+  static const std::unordered_set<char> operators{
+      '+', '-', '*', '/', '>', '=', '<', '?', '%', '!', '~', '&', '|', '^', '.', ':'
+  };
+  return operators.find(c) != operators.end();
 }

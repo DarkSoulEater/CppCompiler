@@ -18,8 +18,8 @@ class LexicalAnalyzer {
 
  private:
   static bool IsKeyword(const Token &);
-  static bool IsPunctuator(const Token &);
-  static bool IsOperator(const Token &);
+  static bool IsPunctuator(char);
+  static bool IsOperator(char);
 
   std::ifstream input_;
 };
