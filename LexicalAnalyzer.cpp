@@ -7,7 +7,7 @@
 #include <iostream>
 #include <unordered_set>
 
-LexicalAnalyzer::LexicalAnalyzer(const char* filename) : input_(filename) {
+LexicalAnalyzer::LexicalAnalyzer(const char *filename) : input_(filename) {
   if (!input_) {
     throw std::logic_error("could not open the file");
   }
@@ -45,6 +45,9 @@ Token LexicalAnalyzer::Get() {
         token.name = Token::Type::OTHER;
         return token;
       }
+      if (token.value[token.value.size() - 1] == '\\') {
+        token.value.push_back(input_.get());
+      }
     } while (input_.peek() != '"');
     input_.ignore();
     token.name = Token::Type::STRING_LITERAL;
@@ -55,6 +58,9 @@ Token LexicalAnalyzer::Get() {
       if (Empty()) {
         token.name = Token::Type::OTHER;
         return token;
+      }
+      if (token.value[token.value.size() - 1] == '\\') {
+        token.value.push_back(input_.get());
       }
     } while (input_.peek() != '\'');
     input_.ignore();
